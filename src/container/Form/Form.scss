@@ -1,0 +1,22 @@
+.form-container {
+    position: absolute;
+    width: 400px;
+    height: 500px;
+    padding: 70px 40px;
+    box-sizing: border-box;
+    background-color: white;
+    border-radius: 4px;
+    left: 50%;
+    top:50%;
+    transform: translate(-50%,-50%); 
+    box-shadow: 2px 2px 20px rgba(0,0,0,0.4);
+}
+.button-container {
+    margin-top: 110px;
+    display: flex;
+}
+
+.button-margin {
+    margin-left: 10px;
+}
+

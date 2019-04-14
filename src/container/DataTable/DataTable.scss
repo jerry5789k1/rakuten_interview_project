@@ -1,0 +1,19 @@
+.datatable-container {
+    margin-top: 80px;
+    width: 900px;
+    height: 500px;
+    background-color: white;
+    .datatable-data {
+        height: 465px;
+    }
+    .button-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        .datatable-button {
+           width: 20%;
+        }
+    }
+}
+
+
