@@ -1,5 +1,4 @@
 const Reducer = (state=[[],{idToEdit:undefined}], payLoad) => {
-    console.log('state',state,payLoad)
     switch(payLoad.type){
         case 'CREATE':
          return [[...state[0],payLoad.data],{idToEdit:undefined}]

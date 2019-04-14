@@ -22,7 +22,6 @@ class Form extends Component {
     }
     componentDidMount = () => {
         let dataToEdit = this.props.data.find((info)=> info.name === this.props.dataToEdit.idToEdit);
-        console.log("dataToEdit",this.props);
         if(dataToEdit) {
             this.setState({
                 name:dataToEdit.name,
@@ -43,7 +42,6 @@ class Form extends Component {
     isNewNameExist = (name,newName) => {
         let dataToCheck = this.props.data.slice().filter((info)=>info.name !== name);
         let isNewNameExist = dataToCheck.findIndex((info)=> info.name === newName);
-        console.log("isNewNameExist",dataToCheck,isNewNameExist)
         if(isNewNameExist !== -1){
             return true
         }else {
@@ -99,7 +97,6 @@ class Form extends Component {
                           }
        if(this.state.dataToEdit){ //edit
           let isNewNameExist = !this.isNewNameExist(this.state.dataToEdit.name,name); 
-          console.log("isNewNameExist",isNewNameExist)
           let isReadyToEdit = this.isReadyToSubmit(nameIsEmpty,emailIsEmpty,isNewNameExist)
           if(isReadyToEdit) {
             let index = this.props.data.findIndex((info)=> info.name === this.props.dataToEdit.idToEdit);

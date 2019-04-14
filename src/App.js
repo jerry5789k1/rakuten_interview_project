@@ -24,7 +24,6 @@ class App extends Component {
 
   render() {
     const { showForm } = this.state
-    console.log("APP",this.props)
     return (
       <div className="container">
          <DataTable openForm={this.openForm}/>

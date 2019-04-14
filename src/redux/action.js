@@ -1,5 +1,4 @@
 export const createData = (data) => {
-    console.log("data create", data);
     return {
         type:'CREATE',
         data:data,

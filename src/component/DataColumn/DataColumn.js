@@ -17,7 +17,6 @@ class DataColumn extends Component {
     handleDelete = () => {
       const { data, name} = this.props
       const newData = data.filter((info)=> info.name !== name);
-      console.log("newData",newData)
       this.props.dispatch(deleteData(newData));
     }
     render() {
