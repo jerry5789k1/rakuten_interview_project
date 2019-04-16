@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './EmailInput.scss';
+import './index.scss';
 
 class EmailInput extends Component {
       handleChange = (e) => {

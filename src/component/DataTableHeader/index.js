@@ -1,5 +1,5 @@
 import React from 'react';
-import './DataTableHeader.scss';
+import './index.scss';
 const DataTableHeader = () => {
     return (
         <div className="datatable-header">

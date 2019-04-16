@@ -1,21 +1,18 @@
 import React, { Component } from 'react';
 import './index.scss';
-import Button from '../Button/Button';
-import { connect } from 'react-redux';
-import {editData,deleteData} from '../../redux/action';
+import Button from '../Button';
 
 
 class UserDataColumn extends Component {
     handleEdit = () => {
-      const { editData,openForm,name } =this.props
-      editData(name);
+      const { editUserData,openForm,name } =this.props
+      editUserData(name);
       openForm();
     }
-
     handleDelete = () => {
-      const {  userList, name, deleteData } = this.props;
+      const {  userList, name, deleteUserData } = this.props;
       const newData =  userList.filter((info)=> info.name !== name);
-      deleteData(newData);
+      deleteUserData(newData);
     }
     render() {
         const {id, name, phone, email} = this.props;
@@ -33,9 +30,4 @@ class UserDataColumn extends Component {
         );
     }
 }
-const mapStateToProps = (state) => {
-    return {
-        userList: state.userList
-    }
-}
-export default connect(mapStateToProps,{editData,deleteData})(UserDataColumn);
+export default UserDataColumn

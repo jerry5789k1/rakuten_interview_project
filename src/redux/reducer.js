@@ -9,7 +9,7 @@ const Reducer = (state=initState, action) => {
         case 'UPDATE':
          return { ...state, userList:[...action.data]}
         case 'RESET':
-         return { ...state, userList:[...state.userList]}
+         return { ...state, selectedUserId:null}
         case 'DELETE':
          return { ...state, userList:[...action.data]}
         default:

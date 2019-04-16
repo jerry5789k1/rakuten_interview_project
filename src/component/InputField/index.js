@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './InputField.scss';
+import './index.scss';
 
 class InputField extends Component {
     handleChange = (e) => {

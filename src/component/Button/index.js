@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './Button.scss';
+import './index.scss';
 class Button extends Component {
     handleClick = () => {
         this.props.onClick();

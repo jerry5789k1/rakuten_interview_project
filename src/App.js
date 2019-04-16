@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.scss';
 import UserDataTable from './container/UserDataTable';
-import Form from './container/Form/Form';
+import Form from './container/Form';
 
 
 class App extends Component {
