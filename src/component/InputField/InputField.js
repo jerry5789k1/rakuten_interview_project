@@ -3,8 +3,8 @@ import './InputField.scss';
 
 class InputField extends Component {
     handleChange = (e) => {
-      let value = e.target.value;
-      let isEmpty = value.length > 0 ? false : true;
+      const value = e.target.value;
+      const isEmpty = value.length > 0 ? false : true;
       this.props.handleValue(value,isEmpty);
     }
     getWarningInfo = (isEmpty, isExist) => {

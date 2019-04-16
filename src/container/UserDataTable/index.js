@@ -1,20 +1,19 @@
 import React, { Component } from 'react';
-// component
 import DataTableHeader from '../../component/DataTableHeader/DataTableHeader';
 import Button from '../../component/Button/Button';
-import DataColumn from '../../component/DataColumn/DataColumn';
-// scss 
-import './DataTable.scss';
-//redux
+import UserDataColumn from '../../component/UserDataColumn';
+import './index.scss';
 import { connect } from 'react-redux';
 
-class DataTable extends Component {
+class UserDataTable extends Component {
     getDataView = () => {
-        return this.props.data.map((dataInfo,i)=>{
-            return <DataColumn id={i+1} name={dataInfo.name} phone={dataInfo.phone} email={dataInfo.email} openForm={this.props.openForm}/>
+        const { userList,openForm } = this.props
+        return userList.map((user,i)=>{
+            return <UserDataColumn key={user.name} id={i+1} name={user.name} phone={user.phone} email={user.email} openForm={openForm}/>
         })
     }
     render() {
+        const {openForm} = this.props
         return (
             <div className="datatable-container">
               <DataTableHeader/>
@@ -22,7 +21,7 @@ class DataTable extends Component {
                 {this.getDataView()}
               </div>
               <div className="button-container">
-                 <Button styleClass={'datatable-button'} onClick={this.props.openForm} buttonHolder={'Add New Data'}/>
+                 <Button className="datatable-button" onClick={openForm} buttonHolder={'Add New Data'}/>
               </div>  
             </div>
         );
@@ -31,7 +30,7 @@ class DataTable extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        data: state[0]
+        userList: state.userList
     }
 }
-export default connect(mapStateToProps)(DataTable);
+export default connect(mapStateToProps)(UserDataTable);

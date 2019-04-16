@@ -1,15 +1,17 @@
-const Reducer = (state=[[],{idToEdit:undefined}], payLoad) => {
-    switch(payLoad.type){
+
+const initState = { userList:[],selectedUserId:null }
+const Reducer = (state=initState, action) => {
+    switch(action.type){
         case 'CREATE':
-         return [[...state[0],payLoad.data],{idToEdit:undefined}]
+         return { ...state, userList:[...state.userList,action.data]}
         case 'EDIT':
-         return [[...state[0]],{idToEdit:payLoad.data}]
+         return { ...state, selectedUserId:action.data}
         case 'UPDATE':
-         return [[...payLoad.data],{idToEdit:undefined}]
+         return { ...state, userList:[...action.data]}
         case 'RESET':
-         return [[...state[0]],{idToEdit:undefined}]
+         return { ...state, userList:[...state.userList]}
         case 'DELETE':
-         return [[...payLoad.data],{idToEdit:undefined}]
+         return { ...state, userList:[...action.data]}
         default:
          return state;
     }

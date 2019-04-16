@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
-// scss
 import './Form.scss';
-// component
 import InputField from '../../component/InputField/InputField';
 import EmailInput from '../../component/EmailInput/EmailInput';
 import Button from '../../component/Button/Button';
-//redux 
 import { connect } from 'react-redux';
 import {createData, resetIdToEdit, updateData} from '../../redux/action'
 
@@ -18,21 +15,20 @@ class Form extends Component {
         email:'',
         emailIsEmpty:false,
         emailIsValid:true,
-        dataToEdit:undefined,
     }
     componentDidMount = () => {
-        let dataToEdit = this.props.data.find((info)=> info.name === this.props.dataToEdit.idToEdit);
-        if(dataToEdit) {
+        const { selectedUser } = this.props
+        if(selectedUser) {
             this.setState({
-                name:dataToEdit.name,
-                phone:dataToEdit.phone,
-                email:dataToEdit.email,
-                dataToEdit,
+                name:selectedUser.name,
+                phone:selectedUser.phone,
+                email:selectedUser.email,
             })
         }
     }
     checkNameExist = (name) => {
-        const isNameExist = this.props.data.find((info)=> info.name === name)
+        const { userList } = this.props
+        const isNameExist = userList.find((info)=> info.name === name)
         if(isNameExist){
             return true
         }else {
@@ -40,8 +36,10 @@ class Form extends Component {
         }
     }
     isNewNameExist = (name,newName) => {
-        let dataToCheck = this.props.data.slice().filter((info)=>info.name !== name);
+        const { userList } = this.props
+        let dataToCheck = userList.slice().filter((user)=>user.name !== name);
         let isNewNameExist = dataToCheck.findIndex((info)=> info.name === newName);
+        console.log("dataToCheck", isNewNameExist,dataToCheck);
         if(isNewNameExist !== -1){
             return true
         }else {
@@ -50,11 +48,11 @@ class Form extends Component {
     }
     handleName = (value,isEmpty) => {
        let isNameExist = false
-       const {dataToEdit} = this.state
-       if(!dataToEdit){
+       const {selectedUser} = this.props
+       if(!selectedUser){
           isNameExist = this.checkNameExist(value);
        }else {
-          isNameExist = this.isNewNameExist(dataToEdit.name, value)
+          isNameExist = this.isNewNameExist(selectedUser.name, value)
        }
        this.setState({
            name:value,
@@ -69,7 +67,7 @@ class Form extends Component {
         })
     }
 
-    handleEmail = (value, isEmpty,isValid) => {
+    handleEmail = (value, isEmpty, isValid) => {
         this.setState({
             email:value,
             emailIsEmpty:isEmpty,
@@ -85,25 +83,26 @@ class Form extends Component {
     }
     
     onSubmit = () => {
-       let name = this.state.name
-       let phone = this.state.phone
-       let email = this.state.email
-       let nameIsEmpty = !this.isValueEmpty(name);
-       let emailIsEmpty = !this.isValueEmpty(email);
-       let dataToSubmit = {
-                           name: name,
-                           phone: phone,
-                           email: email,
-                          }
-       if(this.state.dataToEdit){ //edit
-          let isNewNameExist = !this.isNewNameExist(this.state.dataToEdit.name,name); 
-          let isReadyToEdit = this.isReadyToSubmit(nameIsEmpty,emailIsEmpty,isNewNameExist)
+       const name = this.state.name
+       const phone = this.state.phone
+       const email = this.state.email
+       const nameIsEmpty = !this.isValueEmpty(name);
+       const emailIsEmpty = !this.isValueEmpty(email);
+       const dataToSubmit = {
+           name,
+           phone,
+           email,
+       }
+        const { createData,updateData, closeForm,selectedUser,selectedUserId,userList } = this.props;
+       if(selectedUser){ //edit
+          const isNewNameExist = !this.isNewNameExist(selectedUser.name,name); 
+          const isReadyToEdit = this.isReadyToSubmit(nameIsEmpty,emailIsEmpty,isNewNameExist)
           if(isReadyToEdit) {
-            let index = this.props.data.findIndex((info)=> info.name === this.props.dataToEdit.idToEdit);
-            let newData = this.props.data.slice();
+            const index = userList.findIndex((user)=> user.name === selectedUserId);
+            let newData = userList.slice();
             newData[index] = dataToSubmit
-            this.props.dispatch(updateData(newData))
-            this.props.closeForm();
+            updateData(newData)
+            closeForm();
           }else {
             this.setState({
                 nameIsEmpty:!nameIsEmpty,
@@ -112,11 +111,11 @@ class Form extends Component {
             })
           }
        }else { // create
-          let isNameExist = !this.checkNameExist(name);
-          let isReady = this.isReadyToSubmit(nameIsEmpty,emailIsEmpty,isNameExist)
+          const isNameExist = !this.checkNameExist(name);
+          const isReady = this.isReadyToSubmit(nameIsEmpty,emailIsEmpty,isNameExist)
           if(isReady){
-            this.props.dispatch(createData(dataToSubmit))
-            this.props.closeForm();
+            createData(dataToSubmit)
+            closeForm();
           }else {
             this.setState({
                 nameIsEmpty:!nameIsEmpty,
@@ -128,14 +127,15 @@ class Form extends Component {
        
     }
 
-
     componentWillUnmount = () => {
-        this.props.dispatch(resetIdToEdit());
+        this.props.resetIdToEdit();
     }
     render() {
         const {name, nameIsEmpty, email, emailIsEmpty, emailIsValid, phone,isNameExist} = this.state
+        const { selectedUser } = this.props
         return (
             <div className="form-container">
+
                 <InputField 
                     title={"Name："} 
                     type={"text"} 
@@ -163,18 +163,20 @@ class Form extends Component {
                 />
                 <div className="button-container">
                     <Button onClick={this.props.closeForm} buttonHolder={'Cancel'}/>
-                    <Button styleClass={"button-margin"} onClick={this.onSubmit} buttonHolder={`${this.state.dataToEdit?'Update':'Submit'}`}/>
+                    <Button className="button-margin" onClick={this.onSubmit} buttonHolder={`${selectedUser?'Update':'Submit'}`}/>
                 </div>
             </div>
         );
     }
 }
 
+const getSelectedUser = (state) => state.userList.find((user)=> user.name === state.selectedUserId)
 const mapStateToProps = (state) => {
     return {
-        data: state[0],
-        dataToEdit:state[1],
+      selectedUser: getSelectedUser(state),
+      selectedUserId:state.selectedUserId,
+      userList:state.userList,
     }
 }
 
-export default connect(mapStateToProps)(Form);
+export default connect(mapStateToProps,{createData, resetIdToEdit, updateData})(Form);

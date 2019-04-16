@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-// scss
 import './App.scss';
-// component 
-import DataTable from './container/DataTable/DataTable';
+import UserDataTable from './container/UserDataTable';
 import Form from './container/Form/Form';
 
 
@@ -26,7 +24,7 @@ class App extends Component {
     const { showForm } = this.state
     return (
       <div className="container">
-         <DataTable openForm={this.openForm}/>
+         <UserDataTable openForm={this.openForm}/>
          {showForm ? <Form closeForm={this.closeForm}/> : null}
       </div>
     );

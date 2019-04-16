@@ -3,10 +3,10 @@ import './EmailInput.scss';
 
 class EmailInput extends Component {
       handleChange = (e) => {
-        let value = e.target.value;
-        let isEmpty = value.length > 0 ? false : true;
-        const emailRule = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
-        let isValid = emailRule.test(value);
+        const value = e.target.value;
+        const isEmpty = value.length > 0 ? false : true;
+        const emailRule = /^\w+((-\w+)|(\.\w+))*@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
+        const isValid = emailRule.test(value);
         this.props.handleValue(value,isEmpty,isValid);
       }
       getWarningInfo = (isEmpty,isValid) => {

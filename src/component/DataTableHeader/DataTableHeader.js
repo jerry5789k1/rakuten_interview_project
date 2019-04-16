@@ -1,8 +1,6 @@
 import React from 'react';
-//css 
 import './DataTableHeader.scss';
 const DataTableHeader = () => {
-
     return (
         <div className="datatable-header">
                 <div className="cell">No.</div>
