@@ -12,6 +12,10 @@
         border: 1px solid #eae6e6;
         
     }
+    .hover-effect:hover {
+           background: #1c6586;
+           cursor: pointer;
+    }
     .cell {
         display: flex;
         width: 100%;
@@ -24,4 +28,5 @@
         padding: 0px 10px;
         max-width: 153px;
     }
+    
 }

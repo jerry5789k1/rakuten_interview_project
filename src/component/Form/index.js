@@ -7,12 +7,12 @@ import Button from '../../component/Button';
 class Form extends Component {
     state = {
         name:'',
-        isNameExist:false,
-        isNameEmpty:false,
+        nameExist:false,
+        nameEmpty:false,
         phone:'',
         email:'',
-        isEmailEmpty:false,
-        isEmailValid:true,
+        emailEmpty:false,
+        emailValid:true,
     }
     componentDidMount = () => {
         const { selectedUser } = this.props
@@ -24,20 +24,20 @@ class Form extends Component {
             })
         }
     }
-    checkIsNameExist = (name) => {
+    checkNameExist = (name) => {
         const { userList } = this.props
-        const isNameExist = userList.find((info)=> info.name === name)
-        if(isNameExist){
+        const nameExist = userList.find((info)=> info.name === name)
+        if(nameExist){
             return true
         }else {
             return false
         }
     }
-    checkIsNewNameExist = (name,newName) => {
+    checkNewNameExist = (name,newName) => {
         const { userList } = this.props
         let dataToCheck = userList.slice().filter((user)=>user.name !== name);
-        let isNewNameExist = dataToCheck.findIndex((info)=> info.name === newName);
-        if(isNewNameExist !== -1){
+        let newNameExist = dataToCheck.findIndex((info)=> info.name === newName);
+        if(newNameExist !== -1){
             return true
         }else {
             return false
@@ -45,17 +45,17 @@ class Form extends Component {
     }
 
     handleNameValue = (value,isEmpty) => {
-       let isNameExist = false
+       let nameExist = false
        const {selectedUser} = this.props
        if(!selectedUser){
-          isNameExist = this.checkIsNameExist(value);
+          nameExist = this.checkNameExist(value);
        }else {
-          isNameExist = this.checkIsNewNameExist(selectedUser.name, value)
+          nameExist = this.checkNewNameExist(selectedUser.name, value)
        }
        this.setState({
            name:value,
-           isNameEmpty:isEmpty,
-           isNameExist,
+           nameEmpty:isEmpty,
+           nameExist,
        })
     }
 
@@ -68,8 +68,8 @@ class Form extends Component {
     handleEmailValue = (value, isEmpty, isValid) => {
         this.setState({
             email:value,
-            isEmailEmpty:isEmpty,
-            isEmailValid:isValid,
+            emailEmpty:isEmpty,
+            emailValid:isValid,
         })
     }
     isValueEmpty = (value) => {
@@ -84,8 +84,8 @@ class Form extends Component {
        const name = this.state.name
        const phone = this.state.phone
        const email = this.state.email
-       const isNameEmpty = !this.isValueEmpty(name);
-       const isEmailEmpty = !this.isValueEmpty(email);
+       const nameEmpty = !this.isValueEmpty(name);
+       const emailEmpty = !this.isValueEmpty(email);
        const dataToSubmit = {
            name,
            phone,
@@ -93,8 +93,8 @@ class Form extends Component {
        }
         const { createUserData,updateUserData, closeForm,selectedUser,selectedUserId,userList } = this.props;
        if(selectedUser){ //edit
-          const isNewNameExist = !this.checkIsNewNameExist(selectedUser.name,name); 
-          const isReadyToEdit = this.isReadyToSubmit(isNameEmpty,isEmailEmpty,isNewNameExist)
+          const newNameExist = !this.checkNewNameExist(selectedUser.name,name); 
+          const isReadyToEdit = this.isReadyToSubmit(nameEmpty,emailEmpty,newNameExist)
           if(isReadyToEdit) {
             const index = userList.findIndex((user)=> user.name === selectedUserId);
             let newData = userList.slice();
@@ -103,22 +103,22 @@ class Form extends Component {
             closeForm();
           }else {
             this.setState({
-                isNameEmpty:!isNameEmpty,
-                isEmailEmpty:!isEmailEmpty,
-                isNameExist:!isNewNameExist,
+                nameEmpty:!nameEmpty,
+                emailEmpty:!emailEmpty,
+                nameExist:!newNameExist,
             })
           }
        }else { // create
-          const isNameExist = !this.checkIsNameExist(name);
-          const isReady = this.isReadyToSubmit(isNameEmpty,isEmailEmpty,isNameExist)
+          const nameExist = !this.checkNameExist(name);
+          const isReady = this.isReadyToSubmit(nameEmpty,emailEmpty,nameExist)
           if(isReady){
             createUserData(dataToSubmit)
             closeForm();
           }else {
             this.setState({
-                isNameEmpty:!isNameEmpty,
-                isEmailEmpty:!isEmailEmpty,
-                isNameExist:!isNameExist,
+                nameEmpty:!nameEmpty,
+                emailEmpty:!emailEmpty,
+                nameExist:!nameExist,
             })
           }      
        }
@@ -128,7 +128,7 @@ class Form extends Component {
         this.props.resetSelectedUserId();
     }
     render() {
-        const {name, isNameEmpty, email, isEmailEmpty, isEmailValid, phone,isNameExist} = this.state
+        const {name, nameEmpty, email, emailEmpty, emailValid, phone,nameExist} = this.state
         const { selectedUser } = this.props
         return (
             <div className="form-container">
@@ -139,8 +139,8 @@ class Form extends Component {
                     value={name} 
                     placeHolder={"Your name"} 
                     handleValue={this.handleNameValue} 
-                    isEmpty={isNameEmpty}
-                    isExist={isNameExist}
+                    isEmpty={nameEmpty}
+                    isExist={nameExist}
                 />
                 <InputField 
                     title={"Phone："} 
@@ -155,8 +155,8 @@ class Form extends Component {
                     value={email}
                     placeHolder={"Your Email Address"} 
                     handleValue={this.handleEmailValue} 
-                    isEmpty={isEmailEmpty}
-                    isValid={isEmailValid} 
+                    isEmpty={emailEmpty}
+                    isValid={emailValid} 
                 />
                 <div className="button-container">
                     <Button onClick={this.props.closeForm} buttonHolder={'Cancel'}/>

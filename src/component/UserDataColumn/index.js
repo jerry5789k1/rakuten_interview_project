@@ -11,8 +11,7 @@ class UserDataColumn extends Component {
     }
     handleDelete = () => {
       const {  userList, name, deleteUserData } = this.props;
-      const newData =  userList.filter((info)=> info.name !== name);
-      deleteUserData(newData);
+      deleteUserData(name,userList);
     }
     render() {
         const {id, name, phone, email} = this.props;
