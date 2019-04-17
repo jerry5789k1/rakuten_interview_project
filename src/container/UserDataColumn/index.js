@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import {editUserData,deleteUserData} from '../../redux/action';
+import {editUserData,deleteUserData} from '../../action';
 import UserDataColumn from '../../component/UserDataColumn'
 const mapStateToProps = (state) => {
     return {

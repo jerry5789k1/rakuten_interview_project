@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import {createUserData, resetSelectedUserId, updateUserData} from '../../redux/action';
+import {createUserData, resetSelectedUserId, updateUserData} from '../../action';
 import Form from '../../component/Form';
 
 
